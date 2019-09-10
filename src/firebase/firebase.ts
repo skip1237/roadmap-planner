@@ -1,23 +1,23 @@
 import * as firebase from "firebase";
 
 const prodConfig = {
-  apiKey: "AIzaSyCE_hUx_-gDncRWzzYi1t-W18XdZCVjfUc",
-  authDomain: "roadmap-planner-dev.firebaseapp.com",
-  databaseURL: "https://roadmap-planner-dev.firebaseio.com",
-  projectId: "roadmap-planner-dev",
-  storageBucket: "",
-  messagingSenderId: "991820668796",
-  appId: "1:991820668796:web:41936a940d59b874b14ef9"
+  apiKey: process.env.REACT_APP_PROD_APIKEY,
+  authDomain: process.env.REACT_APP_PROD_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_PROD_DATABASEURL,
+  projectId: process.env.REACT_APP_PROD_PROJECTID,
+  storageBucket: process.env.REACT_APP_PROD_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_PROD_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_PROD_APPID
 };
 
 const devConfig = {
-  apiKey: "AIzaSyCE_hUx_-gDncRWzzYi1t-W18XdZCVjfUc",
-  authDomain: "roadmap-planner-dev.firebaseapp.com",
-  databaseURL: "https://roadmap-planner-dev.firebaseio.com",
-  projectId: "roadmap-planner-dev",
-  storageBucket: "",
-  messagingSenderId: "991820668796",
-  appId: "1:991820668796:web:41936a940d59b874b14ef9"
+  apiKey: process.env.REACT_APP_DEV_APIKEY,
+  authDomain: process.env.REACT_APP_DEV_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_DEV_DATABASEURL,
+  projectId: process.env.REACT_APP_DEV_PROJECTID,
+  storageBucket: process.env.REACT_APP_DEV_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_DEV_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_DEV_APPID
 };
 
 const config = process.env.NODE_ENV === "production" ? prodConfig : devConfig;

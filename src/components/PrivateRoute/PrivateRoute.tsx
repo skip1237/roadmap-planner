@@ -1,33 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { firebase, db } from "../../firebase";
-
-// Utils
-// import { isLoggedIn } from "../../helpers/auth";
-
-// const isLoggedIn = () => {
-//   console.log("isLoggedIn");
-
-//   firebase.auth.onAuthStateChanged(authUser => {
-//     if (authUser) {
-//       console.log("authUser", authUser);
-//       return true;
-//     } else {
-//       console.log("authUser is null");
-//       return false;
-//     }
-//   });
-//   return false;
-// };
+import { useSession } from "../../hooks/useSession";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
+  const user = useSession();
   return (
     <Route
       {...rest}
       render={props =>
-        isLoggedIn ? (
+        user ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: "login" }} />

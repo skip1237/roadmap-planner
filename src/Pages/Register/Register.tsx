@@ -1,20 +1,38 @@
 import React from "react";
-import { Form, Icon, Input, Button, Row, Col, Typography } from "antd";
+import { Form, Icon, Input, Button, Row, Typography } from "antd";
 import { WrappedFormUtils } from "antd/lib/form/Form";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { auth, db } from "../../firebase";
 
 const { Title } = Typography;
 interface RegisterProps {
-  register: Function;
   form: WrappedFormUtils;
 }
 
 class Register extends React.Component<RegisterProps, any> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userInDb: false,
+      loading: false
+    };
+  }
+
+  handleLoading = loading => {
+    this.setState({ loading });
+  };
+
+  handleInDb = userInDb => {
+    this.setState({ userInDb });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+      const { handleLoading, handleInDb } = this;
+
       if (!err) {
+        handleLoading(true);
         console.log("Received values of form: ", values);
         const { username, email, password } = values;
         auth
@@ -27,19 +45,30 @@ class Register extends React.Component<RegisterProps, any> {
               .then(() => {
                 console.log("done");
                 this.props.form.resetFields();
+                handleInDb(true);
+                handleLoading(false);
+                // history.push("/");
               })
               .catch(error => {
                 console.log(error);
+                handleLoading(false);
               });
           })
           .catch(error => {
             console.log(error);
+            handleLoading(false);
           });
       }
     });
   };
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { userInDb, loading } = this.state;
+
+    if (userInDb && !loading) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <Row
         style={{
@@ -58,7 +87,7 @@ class Register extends React.Component<RegisterProps, any> {
             padding: "20px 40px 10px",
             borderRadius: "10px",
             background: "white",
-            minWidth: "420px"
+            width: "420px"
           }}
         >
           <Title level={3}>Register</Title>
@@ -118,6 +147,7 @@ class Register extends React.Component<RegisterProps, any> {
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
+                  disabled={loading}
                 >
                   Create account
                 </Button>
